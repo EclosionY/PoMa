@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, BrowserWindow, globalShortcut, Menu} from 'electron'
+import {app, protocol, BrowserWindow, globalShortcut, Menu,Tray} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -35,6 +35,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1366,
         height: 768,
+        icon:__static+'/icon/icon.png',
         webPreferences: {
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -88,6 +89,28 @@ app.on('ready', async () => {
         }
 
     })
+    const tray = new Tray('/public/icon/icon.png');
+    const trayContextMenu = Menu.buildFromTemplate([
+        {
+            label: '打开',
+            click: () => {
+                win.show();
+            }
+        }, {
+            label: '退出',
+            click: () => {
+                app.quit();
+            }
+        }
+    ]);
+
+    tray.setToolTip('project manager正在运行......');
+    tray.on('click', () => {
+        win.show();
+    });
+    tray.on('right-click', () => {
+        tray.popUpContextMenu(trayContextMenu);
+    });
 })
 app.on('will-quit', function () {
     // Unregister a shortcut.
