@@ -53,7 +53,7 @@
     export default {
         name: "homePage",
         components: {
-            LoadfromGit,
+            loadfromGit,
             projectChoose
         },
         data() {

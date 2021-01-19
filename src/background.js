@@ -89,7 +89,7 @@ app.on('ready', async () => {
         }
 
     })
-    const tray = new Tray('/public/icon/icon.png');
+    const tray = new Tray(__static+'/icon/icon.png');
     const trayContextMenu = Menu.buildFromTemplate([
         {
             label: '打开',
